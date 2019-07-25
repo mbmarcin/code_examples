@@ -1,3 +1,41 @@
+#Logical operations
+data[data['column_1']=='french']
+data[(data['column_1']=='french') & (data['year_born']==1990)]
+data[(data['column_1']=='french') & (data['year_born']==1990) & ~(data['city']=='London')]
+data[data['column_1'].isin(['french', 'english'])]
+
+
+#Updating the data
+data.loc[8, 'column_1'] = 'english'
+data.loc[data['column_1']=='french', 'column_1'] = 'French'
+
+
+"""
+tqdm, the one and only
+When working with large datasets, pandas can take some time running .map(), .apply(), .applymap() operations. tqdm is a very useful package that helps predict when theses operations will finish executing (yes I lied, I said we would use only pandas).
+"""
+from tqdm import tqdm_notebook
+tqdm_notebook().pandas()
+data['column_1'].progress_map(lambda x: x.count('e'))
+
+
+#Correlation and scatter matrices
+data.corr()
+data.corr().applymap(lambda x: int(x*100)/100)
+
+pd.plotting.scatter_matrix(data, figsize=(12,8))
+#-------------------------------------------------------------
+
+#Grouping
+data.groupby('column_1')['column_2'].apply(sum).reset_index()
+
+#Iterating over rows
+dictionary = {}
+
+for i,row in data.iterrows():
+  dictionary[row['column_1']] = row['column_2']
+
+
 #select_dtypes
 df.dtypes.value_counts()
 df.select_dtypes(include=['float64', 'int64'])
@@ -70,18 +108,3 @@ for i in range(3):
 #to_csv
 print(df[:5].to_csv())
 float_format='%.0f'
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
