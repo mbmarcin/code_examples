@@ -19,9 +19,21 @@ df.drop([c for c in df.columns if c.startswith('temp_')], axis=1, inplace=True)
 // or
 df = df[[c for c in df.columns if not c.startswith('temp_')]]
 
+# 2 examples
 
+l = list()
 
-
+for i in range(1,101):
+    if i % 15 == 0:
+        l.append('fizz')
+    elif i % 5 == 0:
+        l.append('fizz2')
+    elif i % 3 == 0:
+        l.append('fizz3')
+    else:
+        l.append(i)
+        
+listA = ['fizz' i % 15 == 0 else 'fizz2' if i % 5 == 0 else 'fizz3' i % 3 == 0 else i for i in range(1,101)]
 
 
 #Lambda Functions
@@ -77,15 +89,3 @@ list_a = [1, 2, 3, 4, 5]
 filter_obj =  filter ( lambda  x : x %  2  ==  0 , list_a) # obiekt filtru <filtr na 0x4e45890>
 even_num =  list (filter_obj) # Konwertuje obiekt filer na listę
 print (even_num) # Wyjście: [2, 4]
-
-
-
-
-
-
-
-
-
-
-
-
