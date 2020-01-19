@@ -5,8 +5,8 @@ df = pd.DataFrame({'foo': ['one', 'kl'],
                    'baz': [1, 3],
                    'zoo': [2, 3]})
 
-vb = {'x': df.iloc[:, 3].to_list()}
-vb_ = {'c': df.iloc[:, 2].to_list()}
+vb = {'x': df.iloc[:1, 3].to_list()}
+vb_ = {'c': df.iloc[:1, 2].to_list()}
 
 print(
     {**vb, **vb_}
