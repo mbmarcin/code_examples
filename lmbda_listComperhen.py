@@ -1,5 +1,46 @@
-#One-Line List Comprehension
+def custom_rating(genre,rating):
+    if 'Thriller' in genre:
+        return min(10,rating+1)
+    elif 'Comedy' in genre:
+        return max(0,rating-1)
+    else:
+        return rating
+        
+df['CustomRating'] = df.apply(lambda x: custom_rating(x['Genre'],x['Rating']),axis=1)
 
+df.apply(lambda x: func(x['col1'],x['col2']),axis=1)
+
+#--------------------------------------------------------------------------------------------------
+
+# Single condition: dataframe with all movies rated greater than 8
+df_gt_8 = df[df['Rating']>8]
+# Multiple conditions: AND - dataframe with all movies rated greater than 8 and having more than 100000 votes
+And_df = df[(df['Rating']>8) & (df['Votes']>100000)]
+# Multiple conditions: OR - dataframe with all movies rated greater than 8 or having a metascore more than 90
+Or_df = df[(df['Rating']>8) | (df['Metascore']>80)]
+# Multiple conditions: NOT - dataframe with all emovies rated greater than 8 or having a metascore more than 90 have to be excluded
+Not_df = df[~((df['Rating']>8) | (df['Metascore']>80))]
+
+
+
+#create a new column
+df['num_words_title'] = df.apply(lambda x : len(x['Title'].split(" ")),axis=1)
+#simple filter on new column
+new_df = df[df['num_words_title']>=4]
+
+new_df = df[df.apply(lambda x : len(x['Title'].split(" "))>=4,axis=1)]
+
+year_revenue_dict = df.groupby(['Year']).agg({'Rev_M':np.mean}).to_dict()['Rev_M']
+def bool_provider(revenue, year):
+    return revenue<year_revenue_dict[year]
+    
+new_df = df[df.apply(lambda x : bool_provider(x['Rev_M'],x['Year']),axis=1)]
+
+df['Price'] = df.apply(lambda x: int(x['Price'].replace(',', '')),axis=1)
+
+
+
+#One-Line List Comprehension
 x = [1,2,3,4]
 out = []
 for item in x:
