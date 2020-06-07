@@ -1,3 +1,20 @@
+# def ordinary():
+#     print("I am an ordinary function.")
+    
+    
+def decorate(function):
+    def inner_function():
+        print("I was decorated!")
+        function()
+    return inner_function
+
+@decorate
+def ordinary():
+    print("I am an ordinary function.")
+    
+ordinary()
+
+
 # def my_decorator(func):
 #     def wrapper():
 #         print("Something is happening before the function is called.")
