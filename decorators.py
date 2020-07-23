@@ -1,3 +1,22 @@
+import datetime
+
+
+def time_decorator(func):
+    def inner1():
+        print(f"Start time is : {datetime.datetime.now()}")
+        func()
+
+        print(f"End time is : {datetime.datetime.now()}")
+
+    return inner1
+
+
+@time_decorator
+def test_decorator_simple():
+    print(f"Time in test : {datetime.datetime.now()}")
+
+
+
 # def ordinary():
 #     print("I am an ordinary function.")
     
