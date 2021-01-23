@@ -1,3 +1,70 @@
+def decorate(func):
+    def wrapper():
+        print("Before Hello World")
+        func()
+        print("After Hello World")
+    return wrapper
+
+def validate(func):
+    def wrapper():
+   		print("Validating User")
+   		func()
+   	return wrapper
+
+@decorate
+@validate
+def hello_world():
+     print("Hello World")
+
+hello_world()
+
+#===============================================================================
+
+def validate(func):
+   def wrapper(*args):
+      if args[0] < args[1]:
+   	   print("Warning: a is less than b")
+   	func(*args)
+   return wrapper
+
+@validate
+def hello_world(int_a, int_b):
+   print("Hello World")
+
+hello_world(1, 2)
+
+
+#===============================================================================
+
+def decorate(func):
+   def wrapper():
+       print("Before Hello World")
+       func()
+       print("After Hello World")
+   return wrapper
+
+@decorate
+def hello_world():
+     print("Hello World")
+
+hello_world()
+
+
+#=========================================================================
+
+def decorate(func):
+    def wrapper():
+         print("Before Hello World") 
+         func()
+         print("After Hello World")
+    return wrapper
+
+def hello_world():
+    print("Hello World")
+
+something = decorate(hello_world)
+
+
 # without deco--------------------------------------------------------------------
 # def add(x, y):
 #     print("add is called with parameter {0},{1}".format(x, y))
