@@ -1,3 +1,23 @@
+
+>>> import time
+... def logging_time(func):
+...     """Decorator that logs time"""
+...     def logger():
+...         """Function that logs time"""
+...         start = time.time()
+...         func()
+...         print(f"Calling {func.__name__}: {time.time() - start:.5f}")
+... 
+...     return logger
+... 
+... @logging_time
+... def calculate_sum():
+...     return sum(range(10000))
+... 
+... calculate_sum()
+
+#================================================================
+
 def decorate(func):
     def wrapper():
         print("Before Hello World")
