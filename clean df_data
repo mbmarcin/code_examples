@@ -1,0 +1,88 @@
+import pandas as pd
+
+# Define a reusable function to handle missing values
+def handle_missing_values(df, method='mean', fill_value=None):
+    if method == 'drop':
+        return df.dropna()
+    elif method == 'fill':
+        return df.fillna(fill_value)
+    elif method == 'mean':
+        return df.fillna(df.mean())
+    else:
+        raise ValueError("Invalid method provided")
+
+# Example dataset
+data = {'Name': ['Alice', 'Bob', None, 'David'],
+        'Age': [25, None, 30, 22],
+        'Salary': [50000, 60000, None, 45000]}
+df = pd.DataFrame(data)
+
+# Use the function to handle missing values by filling with the mean
+cleaned_df = handle_missing_values(df, method='mean')
+print(cleaned_df)
+
+///////////////////////////////////////////////////////////////////////////////////////////
+
+# Define a function to remove duplicates based on specific columns
+def remove_duplicates(df, subset=None):
+    return df.drop_duplicates(subset=subset)
+
+# Example dataset with duplicates
+data = {'Name': ['Alice', 'Bob', 'Alice', 'David'],
+        'Age': [25, 30, 25, 22],
+        'Salary': [50000, 60000, 50000, 45000]}
+df = pd.DataFrame(data)
+
+# Remove duplicates based on the 'Name' column
+cleaned_df = remove_duplicates(df, subset=['Name'])
+print(cleaned_df)
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+# Define a function to transform data types
+def transform_data_types(df, col_types):
+    for col, dtype in col_types.items():
+        df[col] = df[col].astype(dtype)
+    return df
+
+# Example dataset with incorrect data types
+data = {'Name': ['Alice', 'Bob', 'David'],
+        'Age': ['25', '30', '22'],
+        'Salary': ['50000', '60000', '45000']}
+df = pd.DataFrame(data)
+
+# Specify the correct data types
+col_types = {'Age': 'int', 'Salary': 'float'}
+
+# Apply the transformation
+cleaned_df = transform_data_types(df, col_types)
+print(cleaned_df.dtype)
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+# Build a complete data cleaning pipeline
+def data_cleaning_pipeline(df, missing_values_method='mean', fill_value=None, subset=None, col_types=None):
+    # Handle missing values
+    df = handle_missing_values(df, method=missing_values_method, fill_value=fill_value)
+    
+    # Remove duplicates
+    df = remove_duplicates(df, subset=subset)
+    
+    # Transform data types
+    if col_types:
+        df = transform_data_types(df, col_types)
+    
+    return df
+
+# Example dataset with various issues
+data = {'Name': ['Alice', 'Bob', None, 'Alice'],
+        'Age': ['25', None, '30', '22'],
+        'Salary': [50000, 60000, None, 50000]}
+
+df = pd.DataFrame(data)
+
+# Define data types and run the pipeline
+col_types = {'Age': 'int', 'Salary': 'float'}
+cleaned_df = data_cleaning_pipeline(df, missing_values_method='mean', subset=['Name'], col_types=col_types)
+print(cleaned_df)
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
