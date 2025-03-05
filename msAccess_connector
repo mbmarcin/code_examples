@@ -1,0 +1,40 @@
+import pyodbc
+import pandas as pd
+from sqlalchemy import create_engine
+import sqlalchemy_access
+from sqlalchemy.engine import URL
+
+
+
+# Ścieżka do pliku bazy danych
+# mdb_file = "dane.mdb"  # lub "dane.accdb"
+mdb_file = "********.accdb"
+# Łączenie z bazą danych
+conn_str = (
+    r"DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};"
+    rf"DBQ={mdb_file};"
+)
+
+# Tworzenie connection string zgodnego z SQLAlchemy
+connection_url = URL.create(
+    "access+pyodbc",
+    query={"odbc_connect": f"DRIVER={{Microsoft Access Driver (*.mdb, *.accdb)}};DBQ={mdb_file}"}
+)
+
+# Tworzenie silnika SQLAlchemy
+engine = create_engine(connection_url)
+
+conn = pyodbc.connect(conn_str)
+cursor = conn.cursor()
+
+# Pobranie listy tabel
+tables = [row.table_name for row in cursor.tables(tableType="TABLE")]
+
+# Eksport każdej tabeli do CSV
+for table in tables:
+    df = pd.read_sql(f"SELECT * FROM [{table}]", engine)
+    df.to_csv(f"D:\\treningSQL\\baza access\\{table}14.csv", index=False)
+    print(f"✅ Zapisano {table}.csv")
+
+cursor.close()
+conn.close()
